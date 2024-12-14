@@ -1,15 +1,3 @@
-locals {
-  resource_group_name = "${var.environment.name}-rg"
-  key_vault_name      = "${var.environment.name}-kv"
-}
-
-resource "azurerm_resource_group" "the_rg" {
-  provider = azurerm
-
-  name     = local.resource_group_name
-  location = var.environment.location
-}
-
 resource "azurerm_key_vault" "the_kv" {
   provider = azurerm
 

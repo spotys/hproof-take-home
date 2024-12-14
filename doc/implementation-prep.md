@@ -8,7 +8,7 @@ The API key rotation should be predictable in the sense that it should rotate th
 
 In the following sections I'm looking at various options of the automation logic. Different solutions take care of the rotation period in different ways. Some contain the full logic i.e. the rotation (aka state management) and the secret management, within a single unit of easily portable code which can be advatageous in case of migration to another CD system is required. Some have the state management hardcoded in the workflow while the secret management logic is done with a separate code/script.
 
-Next features to look at across varous solutions could be:
+Other metrics to look at across varous solutions could be:
 
 - a use of industry standards (how hard it is for newcomers to get acquainted with the code)
 - complexity e.g. code size (how hard is for dev/tech ops to understand the solution)

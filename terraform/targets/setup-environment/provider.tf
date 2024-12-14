@@ -10,6 +10,10 @@ terraform {
       version = "4.13.0"
     }
 
+    google = {
+      source  = "hashicorp/google"
+      version = "6.13.0"
+    }
   }
 
   backend "azurerm" {
@@ -28,4 +32,8 @@ provider "azurerm" {
       recover_soft_deleted_secrets          = true
     }
   }
+}
+
+provider "google" {
+  region = "us-west1"
 }
