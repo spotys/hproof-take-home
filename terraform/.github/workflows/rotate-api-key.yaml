@@ -1,13 +1,11 @@
 name: Periodically Rotate Google Maps API Key
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  workflow_dispatch:
-    inputs: {}
   # schedule:
   #   - cron: "0 0 * * *"
-
+  workflow_dispatch:
 jobs:
-  Rotate-API-Key:
+  rotate-api-key:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Terraform

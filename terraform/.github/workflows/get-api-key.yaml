@@ -2,9 +2,8 @@ name: Show the Azue KeyVault secret
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   workflow_dispatch:
-    inputs: {}
 jobs:
-  Rotate-API-Key:
+  show-api-key:
     runs-on: ubuntu-latest
     steps:
       - name: Azure Login
