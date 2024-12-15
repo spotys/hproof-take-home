@@ -1,0 +1,27 @@
+name: Periodically Rotate Google Maps API Key
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  workflow_dispatch:
+    inputs: {}
+  # schedule:
+  #   - cron: "0 0 * * *"
+
+jobs:
+  Rotate-API-Key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.2"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Try rotate the API key
+        env:
+          ARM_TENANT_ID=: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID=: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        run: |
+          cd terraform \
+          && ./rotate-secret.sh
