@@ -19,8 +19,9 @@ resource "random_id" "api_key_suffix" {
 resource "google_apikeys_key" "maps" {
   provider = google
 
-  project = var.gcp.project_id
-  name    = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
+  project      = var.gcp.project_id
+  name         = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
+  display_name = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
 
   restrictions {
 
@@ -56,10 +57,10 @@ data "azurerm_key_vault" "the_kv" {
   resource_group_name = data.azurerm_resource_group.the_rg.name
 }
 
-# resource "azurerm_key_vault_secret" "the_secret" {
-#   provider = azurerm
+resource "azurerm_key_vault_secret" "the_secret" {
+  provider = azurerm
 
-#   name         = var.azure.secret_key
-#   value        = google_apikeys_key.maps.key_string # new version gets created if the value changes
-#   key_vault_id = data.azurerm_key_vault.the_kv.id
-# }
+  name         = var.azure.secret_key
+  value        = google_apikeys_key.maps.key_string # new version gets created if the value changes
+  key_vault_id = data.azurerm_key_vault.the_kv.id
+}

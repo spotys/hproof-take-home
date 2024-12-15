@@ -1,3 +1,7 @@
+locals {
+  key_vault_name = "${var.azure_environment.name}-kv"
+}
+
 resource "azurerm_key_vault" "the_kv" {
   provider = azurerm
 
