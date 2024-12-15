@@ -9,11 +9,13 @@ gcp = {
   project_id      = "hproof-take-home"
   region          = "us-central1"
   maps_key_prefix = "maps-api-key"
-  service         = "static-maps-backend.googleapis.com",
-  # service = "maps-embed-backend.googleapis.com",
-  # service = "maps-backend.googleapis.com"
+  services = [
+    "static-maps-backend.googleapis.com",
+    # "maps-embed-backend.googleapis.com",
+    # "maps-backend.googleapis.com",
+  ]
   rotation = {
     days   = 1
-    manual = "0" # change to rotate the API key outside of the regular schedule
+    manual = "1" # change to rotate the API key outside of the regular schedule
   }
 }
