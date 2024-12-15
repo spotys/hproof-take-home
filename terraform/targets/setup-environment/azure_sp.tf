@@ -1,5 +1,5 @@
 locals {
-  application_name = "${var.environment.name}-github"
+  application_name = "${var.azure_environment.name}-github"
 }
 
 resource "azuread_application" "application" {

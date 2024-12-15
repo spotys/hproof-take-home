@@ -24,9 +24,10 @@ A [detailed take-home assignment text](doc/take-home.md) as well as the [Impleme
 ## Local Environment Setup
 
 ```bash
-export ARM_TENANT_ID="<your-tenant-id>"
 export ARM_SUBSCRIPTION_ID="<your-subscription-id>"
+export GOOGLE_CREDENTIALS="<google-service-account>"
 az login
+gcloud auth application-default login
 ```
 
 ## Bootstraping the Azure Subscription
