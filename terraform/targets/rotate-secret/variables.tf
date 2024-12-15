@@ -9,14 +9,14 @@ variable "azure" {
 variable "gcp" {
   type = object({
     project_id      = string
-    region          = string
     maps_key_prefix = string
+    service         = string
     rotation = optional(object({
-      years   = optional(number, 0)
-      months  = optional(number, 0)
-      days    = optional(number, 0)
-      hours   = optional(number, 0)
-      minutes = optional(number, 0)
+      years   = optional(number)
+      months  = optional(number)
+      days    = optional(number)
+      hours   = optional(number)
+      minutes = optional(number)
       manual  = optional(string, "0")
       }), { days = 1 }
     )

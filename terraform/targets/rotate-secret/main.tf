@@ -19,12 +19,12 @@ resource "random_id" "api_key_suffix" {
 resource "google_apikeys_key" "maps" {
   provider = google
 
-  name         = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
-  display_name = "My micro-service Maps Key"
+  project = var.gcp.project_id
+  name    = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
 
   restrictions {
     api_targets {
-      service = "maps-backend.googleapis.com"
+      service = var.gcp.service
     }
   }
 
@@ -38,37 +38,17 @@ resource "google_apikeys_key" "maps" {
 # Azure - the secret management logic
 data "azurerm_client_config" "this" {}
 
-resource "azurerm_resource_group" "the_rg" {
+data "azurerm_resource_group" "the_rg" {
   provider = azurerm
 
-  name     = "${var.azure.project_name}-rg"
-  location = var.azure.location
+  name = "${var.azure.project_name}-rg"
 }
 
-resource "azurerm_key_vault" "the_kv" {
+data "azurerm_key_vault" "the_kv" {
   provider = azurerm
 
-  name                       = "${var.azure.project_name}-kv"
-  location                   = azurerm_resource_group.the_rg.location
-  resource_group_name        = azurerm_resource_group.the_rg.name
-  tenant_id                  = data.azurerm_client_config.this.tenant_id
-  sku_name                   = "standard"
-  soft_delete_retention_days = 7
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.this.tenant_id
-    object_id = data.azurerm_client_config.this.object_id
-
-    key_permissions = [] # not using keys here
-
-    secret_permissions = [
-      "Get",
-      "Set",
-      "Delete",
-      "Purge",
-      "Recover"
-    ]
-  }
+  name                = "${var.azure.project_name}-kv"
+  resource_group_name = data.azurerm_resource_group.the_rg.name
 }
 
 resource "azurerm_key_vault_secret" "the_secret" {
@@ -76,5 +56,5 @@ resource "azurerm_key_vault_secret" "the_secret" {
 
   name         = var.azure.secret_key
   value        = google_apikeys_key.maps.key_string # new version gets created if the value changes
-  key_vault_id = azurerm_key_vault.the_kv.id
+  key_vault_id = data.azurerm_key_vault.the_kv.id
 }
