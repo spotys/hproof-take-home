@@ -10,7 +10,7 @@ variable "gcp" {
   type = object({
     project_id      = string
     maps_key_prefix = string
-    service         = string
+    services        = list(string)
     rotation = optional(object({
       years   = optional(number)
       months  = optional(number)
