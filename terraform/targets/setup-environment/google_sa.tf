@@ -3,6 +3,11 @@ locals {
   service_account_id   = replace(local.service_account_name, " ", "-")
 }
 
+# import {
+#   to = google_service_account.google_sa
+#   id = "projects/hproof-take-home/serviceAccounts/hproof-take-home-sa@hproof-take-home.iam.gserviceaccount.com"
+# }
+
 resource "google_service_account" "google_sa" {
   project      = google_project.google_project.project_id
   display_name = local.service_account_name

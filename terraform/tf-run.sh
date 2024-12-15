@@ -6,8 +6,8 @@ do
         c) CMD=${OPTARG};;
         t) TARGET=${OPTARG};;
         e) ENVIRONMENT=${OPTARG};;
-        e) ENVIRONMENT=${OPTARG};;
         o) OUTPUT=${OPTARG};;
+        k) BACKEND_CFG="$BACKEND_CFG -backend-config key=${OPTARG}";;
     esac
 done
 

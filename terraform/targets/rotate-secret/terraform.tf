@@ -1,12 +1,13 @@
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "6.13.0"
-    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "4.13.0"
+    }
+
+    google = {
+      source  = "hashicorp/google"
+      version = "6.13.0"
     }
   }
 
@@ -17,11 +18,6 @@ terraform {
   }
 }
 
-provider "google" {
-  project = var.gcp.project_id
-  region  = var.gcp.region
-}
-
 provider "azurerm" {
   features {
     key_vault {
@@ -29,4 +25,8 @@ provider "azurerm" {
       recover_soft_deleted_secrets          = true
     }
   }
+}
+
+provider "google" {
+  region = "us-west1"
 }
