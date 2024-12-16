@@ -32,10 +32,10 @@ elif [ "$CMD" = "output" ]; then
 fi
 
 
-
-pushd ${TARGET_DIR}
+CDIR="$PWD"
+cd ${TARGET_DIR}
 
 echo "Running: > terraform $CMD ${ARGS}"
 terraform $CMD ${ARGS}
 
-popd
+cd "$CDIR"
