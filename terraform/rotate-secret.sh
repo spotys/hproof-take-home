@@ -9,5 +9,5 @@ if [ -z "$ARM_SUBSCRIPTION_ID" ]; then
     exit 1
 fi
 
-./tf-run.sh -c init -t $TARGET -e $PROJECT -k "rotate-secret.${PROJECT}.tfstate"
-./tf-run.sh -c apply -t $TARGET -e $PROJECT
+./tf-run.sh -c init -t $TARGET -e $PROJECT -k "rotate-secret.${PROJECT}.tfstate" \
+  && ./tf-run.sh -c apply -t $TARGET -e $PROJECT

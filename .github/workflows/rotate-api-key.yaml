@@ -14,6 +14,10 @@ jobs:
           terraform_version: "1.10.2"
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Try rotate the API key
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
