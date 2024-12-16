@@ -1,5 +1,5 @@
 name: Show the Azue KeyVault secret
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is reading secrets from Azure KeyVault 🚀
 on:
   workflow_dispatch:
 jobs:

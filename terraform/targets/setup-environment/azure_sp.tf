@@ -29,7 +29,17 @@ resource "azurerm_role_assignment" "tf_sa_github_access" {
 resource "azurerm_role_assignment" "kv_github_access" {
   principal_id         = azuread_service_principal.service_principal.object_id
   role_definition_name = "Owner"
-  scope                = azurerm_key_vault.the_kv.id
+  scope                = azurerm_resource_group.the_rg.id
+}
+
+resource "azurerm_key_vault_access_policy" "sp_kv_access" {
+  key_vault_id = azurerm_key_vault.the_kv.id
+  tenant_id    = data.azurerm_client_config.this.tenant_id
+  object_id    = azuread_service_principal.service_principal.object_id
+
+  secret_permissions = [
+    "Get", "List", "Set"
+  ]
 }
 
 output "client_id" {
