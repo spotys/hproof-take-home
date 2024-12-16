@@ -1,27 +1,34 @@
 # Google - the API key rotation logic
+locals {
+  time_now  = timestamp()
+  key_count = 2
+}
+
 resource "time_rotating" "api_key_rotation_period" {
-  rotation_years   = var.gcp.rotation.years
-  rotation_months  = var.gcp.rotation.months
-  rotation_days    = var.gcp.rotation.days
-  rotation_hours   = var.gcp.rotation.hours
-  rotation_minutes = var.gcp.rotation.minutes
+  count = local.key_count
+
+  rfc3339        = timeadd(local.time_now, "-${count.index * var.gcp.rotation_hours}h")
+  rotation_hours = 2 * var.gcp.rotation_hours
 }
 
 resource "random_id" "api_key_suffix" {
+  count = local.key_count
+
   byte_length = 2
 
   keepers = {
-    rotation_time  = time_rotating.api_key_rotation_period.rotation_rfc3339
-    manual_trigger = var.gcp.rotation.manual
+    rotation_time = time_rotating.api_key_rotation_period[count.index].rotation_rfc3339
   }
 }
 
-resource "google_apikeys_key" "maps" {
+resource "google_apikeys_key" "api_key" {
+  count = local.key_count
+
   provider = google
 
   project      = var.gcp.project_id
-  name         = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
-  display_name = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix.hex}"
+  name         = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix[count.index].hex}"
+  display_name = "${var.gcp.maps_key_prefix}-${random_id.api_key_suffix[count.index].hex}"
 
   restrictions {
 
@@ -36,7 +43,7 @@ resource "google_apikeys_key" "maps" {
 
   lifecycle {
     replace_triggered_by = [
-      random_id.api_key_suffix.hex
+      random_id.api_key_suffix[count.index].hex
     ]
   }
 }
@@ -57,10 +64,16 @@ data "azurerm_key_vault" "the_kv" {
   resource_group_name = data.azurerm_resource_group.the_rg.name
 }
 
+locals {
+  api_key_map         = { for i in range(local.key_count) : time_rotating.api_key_rotation_period[i].rotation_rfc3339 => google_apikeys_key.api_key[i].key_string }
+  rotation_timestamps = [for k, _ in local.api_key_map : k]
+  latest_timestamp    = sort(local.rotation_timestamps)[length(local.rotation_timestamps) - 1]
+  latest_api_key      = local.api_key_map[local.latest_timestamp]
+}
 resource "azurerm_key_vault_secret" "the_secret" {
   provider = azurerm
 
   name         = var.azure.secret_key
-  value        = google_apikeys_key.maps.key_string # new version gets created if the value changes
+  value        = local.latest_api_key # new version gets created if the value changes
   key_vault_id = data.azurerm_key_vault.the_kv.id
 }

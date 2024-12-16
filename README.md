@@ -108,7 +108,7 @@ This step is intended to be run from a local or remote environment.
 > ./rotate-secret.sh
 ```
 
-This terraform target rotates the key once a day therefore consecutive runs of this target do not actually rotate the key. To rotate the key immediatelly you can use a git-ops driven approach i.e. changing the `vars/rotate-secret.hproof-take-home.tfvars:gcp/rotation/manual` token and re-run the `rotate-secret.sh`.
+This terraform target rotates the key once a day therefore consecutive runs of this target do not actually rotate the key.
 
 ## Reading the API Key from Azure KeyVault
 
@@ -119,8 +119,6 @@ TBD
 A GitHub Workflow has been setup in `.github/workflows` to demostrate the automated API Key rotation functionality. It's working against a pre-set pair of Google and Azure accounts. To avoid additional resources being created in those accounts aside of what's required by this Take Home Assesment, the access to the repository is restricted to read-only. Therefore no changes can be made to the terraform code or the GH workflow. Access tokens to the Google and Azure accounts are stored in GitHub secret store and are therefore hidden from repo users.
 
 The GH workflow is running periodically (every 4 hours) and runs the `terraform/rotate-secret.sh` script which is pre-set to rotate the API key once a day (meaning that only one in any series of 24 consecutive executions actually rotates the API key).
-
-The git-ops driven manual API key rotaion is only available to users with a rw-access to this repo.
 
 ### Workflow
 

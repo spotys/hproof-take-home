@@ -11,14 +11,6 @@ variable "gcp" {
     project_id      = string
     maps_key_prefix = string
     services        = list(string)
-    rotation = optional(object({
-      years   = optional(number)
-      months  = optional(number)
-      days    = optional(number)
-      hours   = optional(number)
-      minutes = optional(number)
-      manual  = optional(string, "0")
-      }), { days = 1 }
-    )
+    rotation_hours  = optional(number, 24)
   })
 }

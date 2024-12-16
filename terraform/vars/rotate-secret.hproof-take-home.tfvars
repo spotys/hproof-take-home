@@ -14,8 +14,5 @@ gcp = {
     # "maps-embed-backend.googleapis.com",
     # "maps-backend.googleapis.com",
   ]
-  rotation = {
-    days   = 1
-    manual = "0" # change to rotate the API key outside of the regular schedule
-  }
+  rotation_hours = 24
 }
