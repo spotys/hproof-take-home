@@ -16,6 +16,6 @@ gcp = {
   ]
   rotation = {
     days   = 1
-    manual = "1" # change to rotate the API key outside of the regular schedule
+    manual = "0" # change to rotate the API key outside of the regular schedule
   }
 }

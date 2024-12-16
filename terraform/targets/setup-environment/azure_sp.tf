@@ -22,14 +22,20 @@ resource "azuread_service_principal_password" "service_principal_password" {
 
 resource "azurerm_role_assignment" "tf_sa_github_access" {
   principal_id         = azuread_service_principal.service_principal.object_id
-  role_definition_name = "Storage Blob Data Contributor"
+  role_definition_name = "Owner"
   scope                = data.azurerm_storage_account.tfstate_storage_account.id
+}
+
+resource "azurerm_role_assignment" "rg_github_access" {
+  principal_id         = azuread_service_principal.service_principal.object_id
+  role_definition_name = "Reader"
+  scope                = azurerm_resource_group.the_rg.id
 }
 
 resource "azurerm_role_assignment" "kv_github_access" {
   principal_id         = azuread_service_principal.service_principal.object_id
   role_definition_name = "Owner"
-  scope                = azurerm_resource_group.the_rg.id
+  scope                = azurerm_key_vault.the_kv.id
 }
 
 resource "azurerm_key_vault_access_policy" "sp_kv_access" {
