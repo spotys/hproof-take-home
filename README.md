@@ -116,7 +116,7 @@ This step is intended to be run from a local or remote environment.
 > ./rotate-secret.sh
 ```
 
-This terraform target rotates the key once a day therefore consecutive runs of this target do not necessarily rotate the key.
+This terraform target rotates the key every 4 hours therefore consecutive runs of this target do not necessarily rotate the key.
 
 ## Automation with a GitHub Workflows
 
@@ -124,7 +124,7 @@ GitHub Workflows have been setup in `.github/workflows` to demostrate the automa
 
 ### API Key Rotation Workflow
 
-This GH workflow is running periodically (every 4 hours) and runs the `terraform/rotate-secret.sh` script which is pre-set to rotate the API key once a day regardles of how many times the workflow runs in that time period.
+This GH workflow is running periodically (every hour) and runs the `terraform/rotate-secret.sh` script which is pre-set to rotate the API key every 4 hours regardles of how many times the workflow runs in that time period.
 
 The Workflow can also be triggered manually from the [GitHub UI](https://github.com/spotys/hproof-take-home/actions/workflows/rotate-api-key.yaml) by clicking the `Run workflow` button at the top right.
 

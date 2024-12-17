@@ -2,7 +2,7 @@ name: Periodically Rotate Google Maps API Key
 run-name: ${{ github.actor }} is rotating Google Maps API key 🚀
 on:
   schedule:
-    - cron: "0 */4 * * *"
+    - cron: "0 */1 * * *"
   workflow_dispatch:
 jobs:
   rotate-api-key:

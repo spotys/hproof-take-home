@@ -14,5 +14,5 @@ gcp = {
     # "maps-embed-backend.googleapis.com",
     # "maps-backend.googleapis.com",
   ]
-  rotation_hours = 24
+  rotation_hours = 4
 }
